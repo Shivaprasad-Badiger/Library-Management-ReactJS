@@ -18,7 +18,8 @@ import styled from "styled-components";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { routerIndexAction } from "./redux/action";
+import { routerIndexAction, isEditFn } from "./redux/action";
+import { useNavigate } from "react-router-dom";
 
 function MuiTable({ books }) {
   console.log(books);
@@ -89,6 +90,7 @@ function MuiTable({ books }) {
 
   // Router
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   // Table
   const VirtuosoTableComponents = {
@@ -188,6 +190,20 @@ function MuiTable({ books }) {
                       style={{ color: "red" }}
                       onClick={() => {
                         deleteItem(index);
+                      }}
+                    />
+                  </Tooltip>
+                )}
+                {libraryStatus && (
+                  <Tooltip title="Edit Book">
+                    <EditOutlinedIcon
+                      sx={iconStyle}
+                      style={{ color: "yellow" }}
+                      onClick={() => {
+                        dispatch(routerIndexAction(index));
+                        dispatch(isEditFn(true))
+                        navigate("/addBook")
+                        
                       }}
                     />
                   </Tooltip>

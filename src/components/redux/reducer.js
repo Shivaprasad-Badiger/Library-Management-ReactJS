@@ -1,7 +1,8 @@
 const initialState = {
   isLibrary: true,
   searchValue: "",
-  indexValue: 0
+  indexValue: 0,
+  isEdit: false
 };
 
 const Reducer = (state = initialState, action) => {
@@ -21,6 +22,11 @@ const Reducer = (state = initialState, action) => {
         ...state,
         indexValue: action.payload,
       };
+      case "isEditType":
+        return {
+          ...state,
+          isEdit: action.payload,
+        };
     default:
       return state;
   }

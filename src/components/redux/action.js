@@ -18,3 +18,9 @@ export const routerIndexAction = (index) => ({
   type: "routeIndex",
   payload: index,
 });
+
+// /Router Index 
+export const isEditFn = (data) => ({
+  type: "isEditType",
+  payload: data,
+});

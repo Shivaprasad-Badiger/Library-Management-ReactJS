@@ -9,9 +9,10 @@ import { InputBase } from "@mui/material";
 import { Select } from "antd";
 import { Typography } from "@mui/material";
 import BookImg from "./images/BookImg.jpg";
-import { homeAction, libraryAction, searchAction } from "./redux/action";
+import { homeAction, isEditFn, libraryAction, searchAction } from "./redux/action";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
+import { useSelector } from "react-redux";
 
 function ResponsiveAppBar() {
   const dispatch = useDispatch();
@@ -67,6 +68,7 @@ function ResponsiveAppBar() {
               options={[
                 { value: "1", label: "Home" },
                 { value: "2", label: "Library" },
+                { value: "3", label: "Add Book" },
               ]}
             />
             <Typography sx={{ width: "100%" }} style={{ paddingLeft: "10%" }}>
@@ -104,7 +106,7 @@ function ResponsiveAppBar() {
               flexGrow: 1,
               display: { xs: "none", md: "flex" },
               alignItems: "center",
-              padding: "0 100px",
+              padding: "0 50px",
             }}
           >
             <Button
@@ -129,6 +131,18 @@ function ResponsiveAppBar() {
               }}
             >
               Library
+            </Button>
+            <Button
+              key={2}
+              sx={{ my: 2, color: "white", display: "block", width: "200px" }}
+              onClick={(e) => {
+                e.preventDefault();
+                dispatch(libraryAction());
+                dispatch(isEditFn(false))
+                navigate("/AddBook");
+              }}
+            >
+              Add Book
             </Button>
 
             <Typography sx={{ width: "100%" }}>

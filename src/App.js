@@ -9,6 +9,7 @@ import { Provider } from "react-redux";
 import store from "./components/redux/store";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import BookDetails from "./components/BookDetails";
+import AddBook from "./components/AddBook";
 
 function App() {
   const [books, setBooks] = useState([]);
@@ -31,7 +32,14 @@ function App() {
           <ResponsiveAppBar />
           <Routes>
             <Route path="/" element={<MuiTable books={books} />}></Route>
-            <Route path="/bookDetails" element={<BookDetails books={books} />}></Route>
+            <Route
+              path="/bookDetails"
+              element={<BookDetails books={books} />}
+            ></Route>
+            <Route
+              path="/addBook"
+              element={<AddBook books={books} setBooks={setBooks} />}
+            ></Route>
           </Routes>
         </BrowserRouter>
       </div>
