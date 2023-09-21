@@ -149,7 +149,8 @@ const SubDiv = styled.div`
     rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px,
     rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
   border-radius: 20px;
-  @media screen and (max-width: 476px) {
+  @media screen and (max-width: 426px) {
     width: 90%;
+    height: fit-content;
   }
 `;

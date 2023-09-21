@@ -41,7 +41,7 @@ const MainDiv = styled.div`
 `;
 const SubDiv = styled.div`
   margin: 15px;
-  padding: 20px;
+  padding: 2np0px;
   height: 85vh;
   width: 60%;
   display: flex;
