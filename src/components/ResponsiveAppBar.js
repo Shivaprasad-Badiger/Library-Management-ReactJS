@@ -9,10 +9,14 @@ import { InputBase } from "@mui/material";
 import { Select } from "antd";
 import { Typography } from "@mui/material";
 import BookImg from "./images/BookImg.jpg";
-import { homeAction, isEditFn, libraryAction, searchAction } from "./redux/action";
+import {
+  homeAction,
+  isEditFn,
+  libraryAction,
+  searchAction,
+} from "./redux/action";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
-import { useSelector } from "react-redux";
 
 function ResponsiveAppBar() {
   const dispatch = useDispatch();
@@ -138,7 +142,7 @@ function ResponsiveAppBar() {
               onClick={(e) => {
                 e.preventDefault();
                 dispatch(libraryAction());
-                dispatch(isEditFn(false))
+                dispatch(isEditFn(false));
                 navigate("/AddBook");
               }}
             >

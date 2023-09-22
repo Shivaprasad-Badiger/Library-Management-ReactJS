@@ -15,11 +15,11 @@ function BookDetails({ books }) {
         <StyledH1>Title : {books[indexVal].title}</StyledH1>
         <StyledP>
           <b>Author: </b>
-          {books[indexVal].authors[0].name}
+          {books[indexVal].author}
         </StyledP>
         <StyledP>
           <b>Published Date: </b>
-          {books[indexVal].published.string.slice(0, 12)}
+          {books[indexVal].date}
         </StyledP>
         <StyledP>
           <b>Background: </b>

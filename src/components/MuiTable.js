@@ -21,8 +21,7 @@ import { useDispatch } from "react-redux";
 import { routerIndexAction, isEditFn } from "./redux/action";
 import { useNavigate } from "react-router-dom";
 
-function MuiTable({ books }) {
-  console.log(books);
+function MuiTable({ books, setBooks }) {
   const columns = [
     {
       width: "12%",
@@ -36,8 +35,8 @@ function MuiTable({ books }) {
     },
     {
       width: "22%",
-      label: "Authors",
-      dataKey: "authors",
+      label: "Author",
+      dataKey: "author",
     },
     {
       width: "22%",
@@ -60,8 +59,8 @@ function MuiTable({ books }) {
       {
         slno: tempData.length + 1,
         title: books[index].title,
-        authors: books[index].authors[0].name,
-        date: books[index].published.string.slice(0, 12),
+        author: books[index].author,
+        date: books[index].date,
       },
     ]);
   };
@@ -78,7 +77,7 @@ function MuiTable({ books }) {
     if (searchVal) {
       setSearchData(
         books.filter((item) =>
-          ["title", "synopsis"].some((prop) =>
+          ["title", "author"].some((prop) =>
             item[prop]?.toLowerCase().startsWith(searchVal.toLowerCase())
           )
         )
@@ -109,14 +108,6 @@ function MuiTable({ books }) {
       <TableBody {...props} ref={ref} />
     )),
   };
-  const iconStyle = {
-    flex: "25px 0 25%",
-    "@media (max-width: 426px)": {
-      height: "fit-content",
-      fontSize: "18px",
-      flex: "10px 0 50%",
-    },
-  };
 
   function fixedHeaderContent() {
     return (
@@ -139,6 +130,7 @@ function MuiTable({ books }) {
                 padding: "15px 10px",
               },
             }}
+            contentEditable
           >
             {column.label}
           </TableCell>
@@ -146,6 +138,18 @@ function MuiTable({ books }) {
       </TableRow>
     );
   }
+  
+  const iconStyle = {
+    flex: "25px 0 25%",
+    "@media (max-width: 426px)": {
+      height: "fit-content",
+      fontSize: "18px",
+      flex: "10px 0 50%",
+    },
+  };
+
+  // Books editable content
+  const updatedBooks = [...books];
 
   function rowContent(index, row) {
     return (
@@ -155,12 +159,14 @@ function MuiTable({ books }) {
             key={column.dataKey}
             align={column.dataKey === "title" ? "left" : "center"}
             sx={{
+              padding: 0,
               "@media (max-width: 476px)": {
                 fontSize: "10px",
                 height: "fit-content",
                 padding: "10px 10px",
               },
             }}
+            contentEditable={column.dataKey === "actions" ? false : true}
           >
             {column.dataKey === "actions" ? (
               <div
@@ -201,9 +207,8 @@ function MuiTable({ books }) {
                       style={{ color: "yellow" }}
                       onClick={() => {
                         dispatch(routerIndexAction(index));
-                        dispatch(isEditFn(true))
-                        navigate("/addBook")
-                        
+                        dispatch(isEditFn(true));
+                        navigate("/addBook");
                       }}
                     />
                   </Tooltip>
@@ -221,7 +226,19 @@ function MuiTable({ books }) {
                 </Link>
               </div>
             ) : (
-              row[column.dataKey]
+              <InputStyled
+                defaultValue={row[column.dataKey]}
+                type={column.dataKey === "price" ? "number" : "text"}
+                onChange={(e) => {
+                  updatedBooks[index] = {
+                    ...updatedBooks[index],
+                    [column.dataKey]: e.target.value,
+                  };
+                }}
+                onBlur={() => {
+                  setBooks(updatedBooks);
+                }}
+              />
             )}
           </TableCell>
         ))}
@@ -237,8 +254,8 @@ function MuiTable({ books }) {
                 return {
                   slno: index + 1,
                   title: item.title,
-                  authors: item.authors[0].name,
-                  date: item.published.string.slice(0, 12),
+                  author: item.author,
+                  date: item.date,
                 };
               })
             : libraryStatus
@@ -246,8 +263,8 @@ function MuiTable({ books }) {
                 return {
                   slno: index + 1,
                   title: item.title,
-                  authors: item.authors[0].name,
-                  date: item.published.string.slice(0, 12),
+                  author: item.author,
+                  date: item.date,
                 };
               })
             : tempData
@@ -264,4 +281,10 @@ export default MuiTable;
 const StyledPpaer = styled(Paper)`
   height: 90vh;
   width: 100%;
+`;
+const InputStyled = styled.input`
+  width: 100%;
+  height: 50px;
+  border: none;
+  text-align: center;
 `;

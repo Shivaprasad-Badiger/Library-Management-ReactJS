@@ -18,7 +18,19 @@ function App() {
     axios
       .get("https://api.jikan.moe/v4/manga")
       .then((response) => {
-        setBooks(response.data.data);
+        const dataset = response.data.data;
+        setBooks(
+          dataset.map((item, index) => {
+            return {
+              slno: index + 1,
+              title: item.title,
+              author: item.authors[0].name,
+              date: item.published.string.slice(0, 12),
+              background: item.background,
+              synopsis: item.synopsis,
+            };
+          })
+        );
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -31,7 +43,11 @@ function App() {
         <BrowserRouter>
           <ResponsiveAppBar />
           <Routes>
-            <Route path="/" element={<MuiTable books={books} />}></Route>
+            <Route
+              path="/"
+              element={<MuiTable books={books} setBooks={setBooks} />}
+            ></Route>
+            {/* <Route path="/" element={<TableNormal books={books} />}></Route> */}
             <Route
               path="/bookDetails"
               element={<BookDetails books={books} />}
